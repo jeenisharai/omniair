@@ -41,13 +41,13 @@ export const BioMeshMapCanvas: FC<BioMeshMapCanvasProps> = ({ overlays }) => {
       const w = (canvas.width = canvas.parentElement?.clientWidth || 800);
       const h = (canvas.height = canvas.parentElement?.clientHeight || 500);
 
-      // Dark serene background
-      ctx.fillStyle = '#07100b';
+      // Dark forest green background (#050a0c)
+      ctx.fillStyle = '#050a0c';
       ctx.fillRect(0, 0, w, h);
 
       // Draw Topographic Contour Lines
       ctx.lineWidth = 1;
-      ctx.strokeStyle = 'rgba(52, 211, 153, 0.08)';
+      ctx.strokeStyle = 'rgba(31, 212, 164, 0.08)';
       for (let r = 80; r < Math.max(w, h) * 1.2; r += 70) {
         ctx.beginPath();
         for (let a = 0; a < Math.PI * 2; a += 0.1) {
@@ -64,13 +64,13 @@ export const BioMeshMapCanvas: FC<BioMeshMapCanvasProps> = ({ overlays }) => {
       // 1. Overlay: Income Disparity Layer (Low-Income elevated bio-stress corridor)
       if (overlays.showIncome) {
         const grad = ctx.createRadialGradient(w * 0.65, h * 0.35, 20, w * 0.65, h * 0.35, w * 0.32);
-        grad.addColorStop(0, 'rgba(239, 68, 68, 0.22)');
-        grad.addColorStop(0.7, 'rgba(249, 115, 22, 0.08)');
+        grad.addColorStop(0, 'rgba(255, 90, 60, 0.22)');
+        grad.addColorStop(0.7, 'rgba(245, 165, 36, 0.08)');
         grad.addColorStop(1, 'transparent');
         ctx.fillStyle = grad;
         ctx.fillRect(0, 0, w, h);
 
-        ctx.fillStyle = 'rgba(248, 113, 113, 0.8)';
+        ctx.fillStyle = 'rgba(255, 90, 60, 0.85)';
         ctx.font = '10px monospace';
         ctx.fillText('DISPARITY CORRIDOR: LOW-INCOME RESIDENTIAL (AQI +38% OVER BASIN)', w * 0.52, h * 0.22);
       }
@@ -78,7 +78,7 @@ export const BioMeshMapCanvas: FC<BioMeshMapCanvasProps> = ({ overlays }) => {
       // 2. Overlay: Traffic Arteries
       if (overlays.showTraffic) {
         ctx.lineWidth = 3;
-        ctx.strokeStyle = 'rgba(249, 115, 22, 0.4)';
+        ctx.strokeStyle = 'rgba(245, 165, 36, 0.4)';
         ctx.setLineDash([8, 6]);
         ctx.lineDashOffset = -time * 15;
         ctx.beginPath();
@@ -94,7 +94,7 @@ export const BioMeshMapCanvas: FC<BioMeshMapCanvasProps> = ({ overlays }) => {
         const gy = h * 0.7;
         ctx.beginPath();
         ctx.arc(gx, gy, 14, 0, Math.PI * 2);
-        ctx.fillStyle = '#38bdf8';
+        ctx.fillStyle = '#8be9ff';
         ctx.fill();
         ctx.strokeStyle = '#0284c7';
         ctx.lineWidth = 2;
@@ -102,16 +102,16 @@ export const BioMeshMapCanvas: FC<BioMeshMapCanvasProps> = ({ overlays }) => {
 
         ctx.beginPath();
         ctx.arc(gx, gy, w * 0.24, 0, Math.PI * 2);
-        ctx.strokeStyle = 'rgba(56, 189, 248, 0.25)';
+        ctx.strokeStyle = 'rgba(139, 233, 255, 0.25)';
         ctx.setLineDash([4, 4]);
         ctx.stroke();
         ctx.setLineDash([]);
 
-        ctx.fillStyle = '#bae6fd';
+        ctx.fillStyle = '#8be9ff';
         ctx.font = '10px monospace';
         ctx.fillText('Lone Regional Gov Sensor (10 km radius average)', gx + 20, gy + 4);
 
-        ctx.fillStyle = '#fca5a5';
+        ctx.fillStyle = '#ff5a3c';
         ctx.fillText('SENSOR DESERT: UNMONITORED BY MUNICIPAL NETWORKS (380K RESIDENTS)', w * 0.45, h * 0.88);
       }
 
@@ -124,12 +124,12 @@ export const BioMeshMapCanvas: FC<BioMeshMapCanvasProps> = ({ overlays }) => {
 
         const grad = ctx.createRadialGradient(nx, ny, 4, nx, ny, radius);
         if (node.aqi > 90) {
-          grad.addColorStop(0, 'rgba(249, 115, 22, 0.35)');
-          grad.addColorStop(0.6, 'rgba(239, 68, 68, 0.12)');
+          grad.addColorStop(0, 'rgba(255, 90, 60, 0.35)');
+          grad.addColorStop(0.6, 'rgba(245, 165, 36, 0.12)');
           grad.addColorStop(1, 'transparent');
         } else {
-          grad.addColorStop(0, 'rgba(16, 185, 129, 0.32)');
-          grad.addColorStop(0.6, 'rgba(52, 211, 153, 0.10)');
+          grad.addColorStop(0, 'rgba(31, 212, 164, 0.35)');
+          grad.addColorStop(0.6, 'rgba(31, 212, 164, 0.10)');
           grad.addColorStop(1, 'transparent');
         }
         ctx.fillStyle = grad;
@@ -138,7 +138,7 @@ export const BioMeshMapCanvas: FC<BioMeshMapCanvasProps> = ({ overlays }) => {
         ctx.fill();
       });
 
-      // 5. Draw Organic Lichen-Shaped Markers
+      // 5. Draw Organic Lichen-Shaped Markers (Branching Thallus, NOT circles!)
       nodes.forEach((node) => {
         const nx = node.x * w;
         const ny = node.y * h;
@@ -168,9 +168,9 @@ export const BioMeshMapCanvas: FC<BioMeshMapCanvasProps> = ({ overlays }) => {
         ctx.closePath();
 
         const isUnhealthy = node.aqi > 90;
-        ctx.fillStyle = isUnhealthy ? 'rgba(249, 115, 22, 0.85)' : 'rgba(52, 211, 153, 0.9)';
+        ctx.fillStyle = isUnhealthy ? 'rgba(255, 90, 60, 0.88)' : 'rgba(31, 212, 164, 0.9)';
         ctx.fill();
-        ctx.strokeStyle = isUnhealthy ? '#ef4444' : '#10b981';
+        ctx.strokeStyle = isUnhealthy ? '#ff5a3c' : '#1fd4a4';
         ctx.lineWidth = 1.5;
         ctx.stroke();
 
@@ -179,7 +179,7 @@ export const BioMeshMapCanvas: FC<BioMeshMapCanvasProps> = ({ overlays }) => {
         ctx.fillStyle = '#ffffff';
         ctx.fill();
 
-        ctx.fillStyle = '#e2e8f0';
+        ctx.fillStyle = '#f1f5f9';
         ctx.font = '11px monospace';
         ctx.fillText(`Bio-AQI ${node.aqi}`, 18, 4);
 
@@ -229,40 +229,40 @@ export const BioMeshMapCanvas: FC<BioMeshMapCanvasProps> = ({ overlays }) => {
   }, [overlays]);
 
   return (
-    <div className="relative w-full h-[460px] rounded-2xl overflow-hidden glass-panel">
+    <div className="relative w-full h-[460px] rounded-2xl overflow-hidden glass-panel border border-[#1fd4a4]/20">
       <canvas ref={canvasRef} className="w-full h-full block cursor-crosshair" />
 
       {hoveredNode && (
         <div
-          className="absolute z-20 pointer-events-none p-3 rounded-xl bg-[#060b08]/95 border border-emerald-500/30 text-xs shadow-2xl backdrop-blur-md space-y-1 transform -translate-x-1/2 -translate-y-full mb-3"
+          className="absolute z-20 pointer-events-none p-3 rounded-xl bg-[#050a0c]/95 border border-[#1fd4a4]/40 text-xs shadow-2xl backdrop-blur-md space-y-1 transform -translate-x-1/2 -translate-y-full mb-3"
           style={{ left: hoveredNode.x, top: hoveredNode.y - 12 }}
         >
           <div className="font-semibold text-slate-100">{hoveredNode.label}</div>
           <div className="flex items-center gap-2 font-mono">
-            <span className="text-emerald-400">Bio-AQI: {hoveredNode.aqi}</span>
+            <span className="text-[#1fd4a4]">Bio-AQI: {hoveredNode.aqi}</span>
             <span className="text-slate-500">•</span>
             <span className="text-slate-400">Alt: {hoveredNode.elevation}</span>
           </div>
-          <p className="text-[11px] text-slate-400 max-w-[200px] leading-tight">
+          <p className="text-[11px] text-slate-400 max-w-[200px] leading-tight font-sans">
             {hoveredNode.details}
           </p>
         </div>
       )}
 
-      <div className="absolute bottom-3 left-3 right-3 px-3 py-2 rounded-xl bg-black/60 backdrop-blur-md border border-white/[0.08] flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-slate-400 pointer-events-none">
+      {/* Confidence Key Legend Bottom-Left */}
+      <div className="absolute bottom-3 left-3 right-3 px-3 py-2 rounded-xl bg-black/75 backdrop-blur-md border border-white/[0.08] flex flex-wrap items-center justify-between gap-3 text-[11px] font-mono text-slate-400 pointer-events-none">
         <div className="flex items-center gap-3">
-          <span className="flex items-center gap-1.5 text-emerald-400">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 inline-block" />
+          <span className="flex items-center gap-1.5 text-[#1fd4a4]">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#1fd4a4] inline-block" />
             Lichen Bio-Mesh Nodes
           </span>
-          <span className="flex items-center gap-1.5 text-orange-400">
-            <span className="w-2.5 h-2.5 rounded-full bg-orange-500 inline-block" />
+          <span className="flex items-center gap-1.5 text-[#ff5a3c]">
+            <span className="w-2.5 h-2.5 rounded-full bg-[#ff5a3c] inline-block" />
             Elevated Bio-Stress
           </span>
         </div>
-        <div>Scale: 1:25,000 • Continuous 40-sec Biological Sweep</div>
+        <div>Confidence: 94.2% • Scale: 1:25,000 • Epiphytic Mesh Sweep</div>
       </div>
     </div>
   );
 };
-
